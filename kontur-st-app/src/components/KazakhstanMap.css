@@ -1,0 +1,50 @@
+.regions circle {
+  transition: r 0.3s ease, fill 0.3s ease;
+}
+
+.regions circle:hover {
+  filter: drop-shadow(0 0 8px rgb(0, 255, 17)); /* жёлтое свечение */
+  cursor: pointer;
+}
+
+.region {
+  fill: #588dbb;
+  transition: fill 0.3s ease;
+}
+
+.region.highlighted {
+  fill: #2f5997dc;
+  stroke: #0084ff;
+}
+
+.map-dot {
+  fill: #00ffea; /* основной цвет (например, синий) */
+  transition: fill 0.3s ease;
+  
+}
+
+.map-dot:hover {
+  fill: rgb(0, 255, 17); /* цвет при наведении (например, жёлтый) */
+}
+
+.region-tooltip {
+  font-size: 16px;
+  font-weight: 600;
+
+  
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  text-align: center;
+  pointer-events: none;
+  background: rgba(15, 62, 100, 0.603); /* темно-синий с прозрачностью */
+  backdrop-filter: blur(8px);         /* блюр заднего фона */
+  -webkit-backdrop-filter: blur(8px); /* для Safari */
+  border-radius: .5rem;                /* скругление углов */
+  
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* легкая тень */
+  transition: all 0.3s ease;
+}

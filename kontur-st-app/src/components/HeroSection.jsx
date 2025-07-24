@@ -3,6 +3,8 @@ import router from '../assets/router.png'
 import security from '../assets/security.png'
 import sts from '../assets/sts.png'
 import background from '../assets/main_background.png';
+import drone from '../assets/drone.png'
+import anti from '../assets/anti.png'
 export default function HeroSection() {
   const features = [
     {
@@ -25,19 +27,29 @@ export default function HeroSection() {
       title: "СТС",
       text: "Специальные технические средства",
     },
+    {
+      icon: <img src={drone} alt="СТС" className="w-8 h-8 mx-auto" />,
+      title: "Дроны",
+      text: "Многофункциональные средства воздушного назначения",
+    },
+    {
+      icon: <img src={anti} alt="СТС" className="w-8 h-8 mx-auto" />,
+      title: "Анти-БПЛА",
+      text: "Комплексные решения для защиты воздушного пространства",
+    },
   ];
 
   return (
    <section 
-  className="relative text-white min-h-[calc(100vh-5rem)] bg-cover bg-center bg-no-repeat flex items-start justify-between flex-col pt-24 pb-12"
+  className="relative text-white min-h-[100vh] bg-cover bg-center bg-no-repeat flex flex-col items-start justify-between pt-28 pb-12"
   style={{
-    backgroundImage: `linear-gradient(to right, rgba(30, 64, 175, 0.79), rgba(37,99,235,0.6)), url(${background})`,
+    backgroundImage: `linear-gradient(to right, rgba(0, 112, 210, 0.85), rgba(0, 84, 122, 0.56)), url(${background})`,
   }}
 >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex flex-col lg:flex-row justify-between items-center gap-12">
           {/* Левая часть */}
-          <div className="flex-1">
+          <div className="flex-1 animate-fade-in">
             <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-6">
               Комплексные решения <br />
               в области
@@ -57,7 +69,7 @@ export default function HeroSection() {
           </div>
 
           {/* Правая часть */}
-          <div className="flex-1 grid grid-cols-2 gap-4">
+          <div className="flex-1 grid grid-cols-2 gap-4 animate-fade-in">
             {features.map((item, index) => (
               <div
                 key={index}
