@@ -1,145 +1,217 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
-import { useTranslation } from 'react-i18next';
-import { HiOutlineMenu, HiX } from 'react-icons/hi';
+import React, { useState } from "react";
+import { HiOutlineGlobeAlt, HiOutlineMenu, HiX } from "react-icons/hi";
+import { useTranslation } from "react-i18next";
+
+const nav = [
+  { key: "about", href: "#about" },
+  { key: "services", href: "#services" },
+  { key: "branches", href: "#news" },
+  { key: "contacts", href: "#contacts" }
+];
+
+const langs = [
+  { code: "ru", labelKey: "lang.short.ru" },
+  { code: "en", labelKey: "lang.short.en" },
+  { code: "kk", labelKey: "lang.short.kk" }
+];
 
 export default function Header() {
-  const { i18n } = useTranslation();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [langMenu, setLangMenu] = useState(false);
+  const { t, i18n } = useTranslation("header"); // <- namespace "header"
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    localStorage.setItem('lng', lng);
+  const currentLang = i18n.language?.split("-")[0] || "ru";
+
+  const changeLang = async (lng) => {
+    setLangMenu(false);
+    if (lng !== currentLang) await i18n.changeLanguage(lng);
   };
 
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [menuOpen]);
-
   return (
-    <header className="w-full bg-white shadow fixed top-0 left-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between h-[80px]">
-        {/* Лого и название */}
-        <div className="flex items-center gap-3">
-          <Link to="/" className="transition-transform hover:scale-105">
-            <img src={logo} alt="АскомМЕТ" className="h-12 w-auto" />
-          </Link>
-          <div className="text-lg font-semibold bg-gradient-to-r from-[#0070d2] to-[#00a8f3] bg-clip-text text-transparent">
-            АскомМЕТ
-            <span className="block text-sm text-[#0070d2]">IT решения в различных областях</span>
+  <header className="fixed top-0 left-0 w-full z-[100]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mt-6 flex items-center justify-center">
+        <div
+          className="
+            relative w-full rounded-[18px] px-4 sm:px-6
+            bg-[#17152b]/65 backdrop-blur-sm
+            ring-1 ring-white/10
+          "
+        >
+          <div className="flex items-center gap-4">
+            {/* ЛОГО */}
+            <a href="/" className="flex items-center gap-2 py-3 sm:py-4 pr-2">
+              <div className="h-7 w-7 rounded-md bg-white/10 ring-1 ring-white/15" />
+              <div className="leading-none">
+                <div className="text-[20px] font-semibold tracking-[0.08em] text-white">
+                  {t("brand.title")}
+                </div>
+                <div className="text-[10px] -mt-0.5 tracking-[0.2em] text-white/60">
+                  {t("brand.tagline")}
+                </div>
+              </div>
+            </a>
+
+            {/* NAV десктоп */}
+            <nav className="hidden md:flex items-center gap-6 text-[15px]">
+              {nav.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className="text-white/80 hover:text-white transition py-4"
+                >
+                  {t(`nav.${item.key}`)}
+                </a>
+              ))}
+            </nav>
+
+            <div className="ml-auto flex items-center gap-3">
+              {/* Язык (dropdown) */}
+              <div className="relative hidden sm:block">
+                <button
+                  className="
+                    flex items-center gap-2
+                    rounded-full border border-white/10 px-3 py-2
+                    text-sm text-white/90 hover:text-white hover:border-white/20 transition
+                    bg-white/5
+                  "
+                  onClick={() => setLangMenu((v) => !v)}
+                  aria-haspopup="menu"
+                  aria-expanded={langMenu}
+                  aria-label={t("lang.choose")}
+                >
+                  <HiOutlineGlobeAlt className="h-4 w-4" />
+                  {t(`lang.short.${currentLang}`)}
+                </button>
+
+                {langMenu && (
+                  <div
+                    className="absolute left-0 top-full mt-2 min-w-[140px]
+                               rounded-xl bg-[#1a1830] ring-1 ring-white/10 p-1 shadow-xl z-50"
+                    role="menu"
+                  >
+                    {langs.map(({ code, labelKey }) => (
+                      <button
+                        key={code}
+                        onClick={() => changeLang(code)}
+                        className={`w-full text-left px-3 py-2 rounded-lg text-sm text-white/90 hover:bg-white/5 ${
+                          currentLang === code ? "opacity-100" : "opacity-80"
+                        }`}
+                        role="menuitem"
+                      >
+                        {t(labelKey)}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* CTA */}
+              <a
+                href="#cta"
+                className="
+                  hidden md:inline-block
+                  rounded-full px-5 py-2.5
+                  text-sm font-semibold text-white
+                  bg-gradient-to-r from-[#6F4DFE] to-[#9B4DFF]
+                  shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_10px_20px_rgba(111,77,254,0.35)]
+                  hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_12px_24px_rgba(111,77,254,0.45)]
+                  transition
+                "
+              >
+                {t("cta")}
+              </a>
+
+              {/* Бургер */}
+              <button
+                className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-full bg-white/5 ring-1 ring-white/10 text-white"
+                onClick={() => setOpen(true)}
+                aria-label="Открыть меню"
+              >
+                <HiOutlineMenu className="h-6 w-6" />
+              </button>
+            </div>
           </div>
         </div>
-
-        {/* Бургер-меню */}
-        <div className="md:hidden">
-          {menuOpen ? (
-            <HiX className="w-7 h-7 text-gray-800 cursor-pointer" onClick={() => setMenuOpen(false)} />
-          ) : (
-            <HiOutlineMenu className="w-7 h-7 text-gray-800 cursor-pointer" onClick={() => setMenuOpen(true)} />
-          )}
-        </div>
-
-        {/* Десктоп меню */}
-        <nav className="hidden md:flex gap-8 font-medium text-gray-700 items-center">
-  {[
-    { href: "/about", label: "О нас", isLink: true },
-    { href: "#services", label: "Услуги" },
-    { href: "#filial", label: "Филиалы" },
-    { href: "#partners", label: "Партнеры" },
-    { href: "#contacts", label: "Контакты" },
-  ].map(({ href, label, isLink }) =>
-    isLink ? (
-      <Link
-        to={href}
-        key={label}
-        className="relative transition hover:text-transparent bg-clip-text bg-gradient-to-r from-[#0070d2] to-[#00a8f3] 
-          after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 
-          hover:after:w-full after:transition-all after:duration-300 
-          after:bg-gradient-to-r after:from-[#0070d2] after:to-[#00a8f3]"
-      >
-        {label}
-      </Link>
-    ) : (
-      <a
-        href={href}
-        key={label}
-        className="relative transition hover:text-transparent bg-clip-text bg-gradient-to-r from-[#0070d2] to-[#00a8f3] 
-          after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 
-          hover:after:w-full after:transition-all after:duration-300 
-          after:bg-gradient-to-r after:from-[#0070d2] after:to-[#00a8f3]"
-      >
-        {label}
-      </a>
-    )
-  )}
-
-  <button className="bg-gradient-to-r from-[#0070d2] to-[#00a8f3] text-white px-4 py-1.5 rounded-lg shadow hover:opacity-90">
-    Связаться
-  </button>
-
-  <div className="flex gap-2 ml-2">
-    {['ru', 'en', 'kz'].map((lng) => (
-      <button
-        key={lng}
-        onClick={() => changeLanguage(lng)}
-        className={`text-sm px-2 ${i18n.language === lng
-          ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#0070d2] to-[#00a8f3] font-bold'
-          : 'text-gray-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#0070d2] hover:to-[#00a8f3]'}`}
-      >
-        {lng.toUpperCase()}
-      </button>
-    ))}
-  </div>
-</nav>
-
       </div>
 
       {/* Мобильное меню */}
-      <div
-        className={`absolute top-[80px] left-0 w-full bg-white z-50 shadow-md rounded-b-lg mobile-menu-transition ${menuOpen ? 'mobile-menu-open' : ''
-          }`}
-      >
-        <ul className="divide-y divide-gray-200">
-          <li className="px-6 py-4 font-medium text-gray-800 hover:text-blue-600">
-            <Link to="/about"  onClick={() => setMenuOpen(false)}>О нас</Link>
-          </li>
-          <li className="px-6 py-4 font-medium text-gray-800 hover:text-blue-600">
-            <a href="#services" onClick={() => setMenuOpen(false)}>Услуги</a>
-          </li>
-          <li className="px-6 py-4 font-medium text-gray-800 hover:text-blue-600">
-            <a href="#filial" onClick={() => setMenuOpen(false)}>Филиалы</a>
-          </li>
-          <li className="px-6 py-4 font-medium text-gray-800 hover:text-blue-600">
-            <a href="#partners" onClick={() => setMenuOpen(false)}>Партнеры</a>
-          </li>
-          <li className="px-6 py-4 font-medium text-gray-800 hover:text-blue-600">
-            <a href="#contacts" onClick={() => setMenuOpen(false)}>Контакты</a>
-          </li>
-          <li className="px-6 py-4">
-            <button className="w-full bg-gradient-to-r from-[#0070d2] to-[#00a8f3] text-white py-2 rounded-md shadow hover:opacity-90">
-              Связаться
-            </button>
-          </li>
-          <li className="px-6 py-4 flex justify-center gap-4">
-            {['ru', 'en', 'kz'].map((lng) => (
+      {open && (
+        <div className="md:hidden fixed inset-0 z-[60] bg-[#0c0a1f]/70 backdrop-blur-sm">
+          <div
+            className="absolute left-1/2 -translate-x-1/2 top-6 w-[92%] max-w-[560px]
+                       rounded-2xl p-4 bg-gradient-to-b from-[#1a1830] to-[#18162d]
+                       ring-1 ring-white/10 shadow-2xl"
+          >
+            <div className="flex items-center justify-between">
+              <div className="text-white/90 font-semibold">{t("menu")}</div>
               <button
-                key={lng}
-                onClick={() => changeLanguage(lng)}
-                className={`text-sm ${i18n.language === lng ? 'text-blue-600 font-bold' : 'text-gray-600 hover:text-blue-500'}`}
+                onClick={() => setOpen(false)}
+                className="h-9 w-9 inline-flex items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 text-white"
+                aria-label="Закрыть меню"
               >
-                {lng.toUpperCase()}
+                <HiX className="h-6 w-6" />
               </button>
-            ))}
-          </li>
-        </ul>
-      </div>
+            </div>
 
+            <nav className="mt-2 grid">
+              {nav.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className="px-3 py-3 text-base text-white/90 hover:text-white rounded-lg hover:bg-white/5 transition"
+                  onClick={() => setOpen(false)}
+                >
+                  {t(`nav.${item.key}`)}
+                </a>
+              ))}
 
-    </header>
-  );
+              <div className="mt-2 flex items-center gap-2 px-2">
+                <div className="relative">
+                  <button
+                    className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-2 text-sm text-white/90 bg-white/5"
+                    onClick={() => setLangMenu((v) => !v)}
+                    aria-haspopup="menu"
+                    aria-expanded={langMenu}
+                  >
+                    <HiOutlineGlobeAlt className="h-4 w-4" />
+                    {t(`lang.short.${currentLang}`)}
+                  </button>
+                  {langMenu && (
+                    <div
+                      className="absolute left-0 top-full mt-2 min-w-[140px] rounded-xl bg-[#1a1830] ring-1 ring-white/10 p-1 shadow-xl z-50"
+                      role="menu"
+                    >
+                      {langs.map(({ code, labelKey }) => (
+                        <button
+                          key={code}
+                          onClick={() => changeLang(code)}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm text-white/90 hover:bg-white/5 ${
+                            currentLang === code ? "opacity-100" : "opacity-80"
+                          }`}
+                          role="menuitem"
+                        >
+                          {t(labelKey)}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <a
+                  href="#cta"
+                  className="ml-auto rounded-full px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-[#6F4DFE] to-[#9B4DFF]"
+                  onClick={() => setOpen(false)}
+                >
+                  {t("consult")}
+                </a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+    </div>
+  </header>
+);
+
 }

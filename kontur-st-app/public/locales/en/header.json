@@ -1,0 +1,20 @@
+{
+  "brand": {
+    "title": "KONTUR-ST",
+    "tagline": "Turn-key integrated solutions"
+  },
+  "nav": {
+    "about": "About",
+    "services": "Services",
+    "branches": "Branches",
+    "contacts": "Contacts"
+  },
+  "cta": "Request a consultation",
+  "menu": "Menu",
+  "consult": "Consultation",
+  "lang": {
+    "short": { "ru": "ru", "en": "en", "kk": "kk" },
+    "full": { "ru": "Russian", "en": "English", "kk": "Kazakh" },
+    "choose": "Choose language"
+  }
+}

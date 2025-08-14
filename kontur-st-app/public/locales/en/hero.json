@@ -1,0 +1,23 @@
+{
+  "title": "Technologies that<br />work for your success",
+  "description": "We design, implement and support integrated IT solutions: video surveillance and video analytics, local computing systems, anti-terrorism protection, digital forensics, Mesh radio communication systems, drone lighting systems, anti-UAV solutions, and STS — turnkey.",
+  "button_about": "Learn more about the company",
+  "facts": {
+    "experience": "years of implementation",
+    "projects": "projects",
+    "support": "support",
+    "iso": "processes and quality"
+  },
+  "directions_title": "Key areas",
+  "directions": {
+    "video": "Video surveillance and analytics",
+    "local": "Local computing systems",
+    "anti_terror": "Anti-terrorism protection",
+    "forensics": "Digital forensics",
+    "mesh": "Mesh communication systems",
+    "drone_light": "Drone lighting systems",
+    "anti_uav": "Anti-UAV",
+    "sts": "STS"
+  },
+  "button_services": "Go to services"
+}

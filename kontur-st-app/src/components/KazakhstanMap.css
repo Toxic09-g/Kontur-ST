@@ -6,26 +6,26 @@
   filter: drop-shadow(0 0 8px rgb(0, 255, 17)); /* жёлтое свечение */
   cursor: pointer;
 }
+.region { fill:#917abdbd; opacity:.9; transition: fill .2s ease, opacity .2s ease; }
+.region.highlighted { fill:#5fbf86; opacity:1; }
 
 .region {
-  fill: #588dbb;
+ 
   transition: fill 0.3s ease;
 }
+
 
 .region.highlighted {
-  fill: #2f5997dc;
-  stroke: #0084ff;
+  fill: #a578ff; /* сам цвет области */
+  opacity: 1;
+  filter: drop-shadow(0 0 5px #a578ff)
+          drop-shadow(0 0 30px #a578ff)
+          drop-shadow(0 0 15px #a578ff);
+  transition: fill .18s ease, filter .18s ease;
 }
 
-.map-dot {
-  fill: #00ffea; /* основной цвет (например, синий) */
-  transition: fill 0.3s ease;
-  
-}
 
-.map-dot:hover {
-  fill: rgb(0, 255, 17); /* цвет при наведении (например, жёлтый) */
-}
+
 
 .region-tooltip {
   font-size: 16px;
